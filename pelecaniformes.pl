@@ -115,7 +115,10 @@ hasSciName(C,N) :- hasCommonName(N,C).
 isaStrict(A,B) :- hasParent2(A,B).
 isaStrict(A,B) :- hasParent2(A,C), isaStrict(C,B).
 
-isa(A,B) :- isaStrict(A,B);(hasCommonName(X,A), isaStrict(X,B)).
+isa(A,B) :-	(nonvar(A), nonvar(B)) -> hasCommonName(X,A), hasCommonName(Y,B),isaStrict(N,M).
+isa(A,B) :- nonvar(A) -> hasCommonName(X,A), isaStrict(X,B).
+isa(A,B) :- nonvar(B) -> hasCommonName(Y,B), isaStrict(A,Y).
+isa(A,B) :- isaStrict(A,B).
 
 synonym(A,B) :- hasCommonName(A,B).
 synonym(A,B) :- hasSciName(A,B).
