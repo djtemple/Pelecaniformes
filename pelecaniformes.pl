@@ -184,3 +184,84 @@ food(X,Y) :- nonvar(X) -> isaStrict(S,X), food(S,Y).
 conservation(egretta_rufescens, nt).
 conservation(X, lc) :- hasCompoundName(_,_,X).
 conservation(X,Y) :- nonvar(X) -> isaStrict(S,X), conservation(S,Y).
+
+%returns the behaviour associated with a given bird
+behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaves(X,Y).
+behavior(X,Y):- atom(X) -> behaves(X,Y).
+
+%A list of all the bird behaviours
+
+behaves(pelecanus_erythrorhynchos, surfaceDive).
+behaves(pelecanus_occidentalis, aerialDive).
+behaves(botaurus_lentiginosus, stalking).
+behaves(ixobrychus_exilis, stalking).
+behaves(ardea_herodias, stalking).
+behaves(ardea_alba, stalking).
+behaves(egretta_thula, stalking).
+behaves(egretta_caerulea, stalking).
+behaves(egretta_tricolor, stalking).
+behaves(egretta_rufescens, stalking).
+behaves(bubulcus_ibis, groundForager).
+behaves(butorides_virescens, stalking).
+behaves(nycticorax_nycticorax, stalking).
+behaves(nyctanassa_violacea, stalking).
+behaves(eudocimus_albus, probing).
+behaves(plegadis_falcinellus, probing).
+behaves(plegadis_chihi, probing).
+behaves(platalea_ajaja, probing).
+behaves(pelecanus, surfaceDive).
+behaves(pelecanus, aerialDive).
+behaves(pelecanidae, surfaceDive).
+behaves(ardeidae, stalking).
+behaves(ardeidae, groundForager).
+behaves(botaurus, stalking).
+behaves(ixobrychus, stalking).
+behaves(ardea, stalking).
+behaves(egretta, stalking).
+behaves(bubulcus, groundForager).
+behaves(butorides, stalking).
+behaves(nycticorax, stalking).
+behaves(nyctanassa, stalking).
+behaves(threskiornithdae, probing).
+behaves(eudocimus, probing).
+behaves(plegadis, probing).
+behaves(platalea, probing).
+behaves(pelecaniformes, surfaceDive).
+behaves(pelecaniformes, aerialDive).
+behaves(pelecaniformes, probing).
+behaves(pelecaniformes, stalking).
+behaves(pelecaniformes, groundForager).
+
+
+%returns the range of a given bird
+rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), ranges(X,Y).
+rangesTo(X,Y):- atom(X) -> ranges(X,Y).
+
+% a list of all the ranges of the birds
+ranges(pelecaniformes, canada).
+ranges(pelecaniformes, alberta).
+ranges(pelecanidae, canada).
+ranges(pelecanidae, alberta).
+ranges(pelecanus, canada).
+ranges(pelecanus, alberta).
+ranges(ardeidae, canada).
+ranges(ardeidae, alberta).
+ranges(botaurus, canada).
+ranges(botaurus, alberta).
+ranges(bubulcus,canada).
+ranges(ardea, canada).
+ranges(ardea, alberta).
+ranges(butorides, canada).
+ranges(nycticorax, canada).
+ranges(nycticorax, alberta).
+ranges(pelecanus_erythrorhynchos, canada).
+ranges(pelecanus_erythrorhynchos, alberta).
+ranges(botaurus_lentiginosus, canada).
+ranges(botaurus_lentiginosus, alberta).
+ranges(bubulcus_ibis, canada).
+ranges(ardea_herodias, canada).
+ranges(ardea_herodias, alberta).
+ranges(ardea_alba, canada).
+ranges(butorides_virescens, canada).
+ranges(nycticorax_nycticorax, canada).
+ranges(nycticorax_nycticorax, alberta).
