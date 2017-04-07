@@ -112,7 +112,7 @@ hasCommonName(G,S,C) :- hasCompoundName(G,S,Compound), hasCommonName(Compound,C)
 
 hasSciName(C,N) :- hasCommonName(N,C).
 
-isaStrict(A,B) :- hasParent2(A,B).
+isaStrict(A,A).
 isaStrict(A,B) :- hasParent2(A,C), isaStrict(C,B).
 
 isa(A,B) :-	(nonvar(A), nonvar(B)) -> hasCommonName(X,A), hasCommonName(Y,B),isaStrict(N,M).
