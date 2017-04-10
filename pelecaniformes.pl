@@ -229,33 +229,14 @@ behaves(pelecaniformes, groundForager).
 
 %returns the range of a given bird
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), ranges(X,Y).
-rangesTo(X,Y) :- atom(X) -> isaStrict(S,X), rangesTo(S,Y).
+rangesTo(X,Y) :- atom(X) -> isaStrict(S,X), ranges(S,Y).
 
 % a list of all the ranges of the birds
-ranges(pelecaniformes, canada).
-ranges(pelecaniformes, alberta).
-ranges(pelecanidae, canada).
-ranges(pelecanidae, alberta).
-ranges(pelecanus, canada).
-ranges(pelecanus, alberta).
-ranges(ardeidae, canada).
-ranges(ardeidae, alberta).
-ranges(botaurus, canada).
-ranges(botaurus, alberta).
-ranges(bubulcus,canada).
-ranges(ardea, canada).
-ranges(ardea, alberta).
-ranges(butorides, canada).
-ranges(nycticorax, canada).
-ranges(nycticorax, alberta).
-ranges(pelecanus_erythrorhynchos, canada).
 ranges(pelecanus_erythrorhynchos, alberta).
-ranges(botaurus_lentiginosus, canada).
 ranges(botaurus_lentiginosus, alberta).
 ranges(bubulcus_ibis, canada).
-ranges(ardea_herodias, canada).
 ranges(ardea_herodias, alberta).
 ranges(ardea_alba, canada).
 ranges(butorides_virescens, canada).
-ranges(nycticorax_nycticorax, canada).
 ranges(nycticorax_nycticorax, alberta).
+ranges(X, canada) :- ranges(X, alberta).
