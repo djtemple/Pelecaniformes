@@ -124,12 +124,6 @@ synonym(A,B) :- hasCommonName(A,B).
 synonym(A,B) :- hasSciName(A,B).
 synonym(A,B) :- hasSciName(A,X), hasSciName(B,X), A \= B, !.
 
-rangesTo(pelecanus_erythrorhynchos, canada).
-rangesTo(botaurus_lentiginosus, canada).
-rangesTo(ardea_herodias, canada).
-rangesTo(nycticorax_nycticorax, canada).
-rangesTo(X,Y) :- nonvar(X) -> isaStrict(S,X), rangesTo(S,Y).
-
 habitat(pelecanus_erythrorynchos, marsh).
 habitat(pelecanus_occidentalus, ocean).
 habitat(botaurus_lentiginosus, marsh).
@@ -235,7 +229,7 @@ behaves(pelecaniformes, groundForager).
 
 %returns the range of a given bird
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), ranges(X,Y).
-rangesTo(X,Y):- atom(X) -> ranges(X,Y).
+rangesTo(X,Y) :- atom(X) -> isaStrict(S,X), rangesTo(S,Y).
 
 % a list of all the ranges of the birds
 ranges(pelecaniformes, canada).
