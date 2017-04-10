@@ -133,7 +133,6 @@ habitat(ardea_herodias, ocean).
 habitat(ardea_alba, ocean).
 habitat(egretta_thula, ocean).
 habitat(egretta_thula, marsh).
-habitat(X,Y) :- nonvar(X) -> isaStrict(S,X), habitat(S,Y).
 
 nesting(pelecanus_erythrorhynchos, ground).
 nesting(pelecanus_occidentalis, tree).
@@ -153,7 +152,6 @@ nesting(eudocimus_albus, tree).
 nesting(plegadis_falcinellus, ground).
 nesting(plegadis_chihi, ground).
 nesting(platalea_ajaja, tree).
-nesting(X,Y) :- nonvar(X) -> isaStrict(S,X), nesting(S,Y).
 
 food(pelecanus_erythrorhynchos, fish).
 food(pelecanus_occidentalis, fish).
@@ -173,7 +171,6 @@ food(eudocimus_albus, insects).
 food(plegadis_falcinellus, insects).
 food(plegadis_chihi, insects).
 food(platalea_ajaja, fish).
-food(X,Y) :- nonvar(X) -> isaStrict(S,X), food(S,Y).
 
 conservation(egretta_rufescens, nt).
 conservation(X, lc) :- hasCompoundName(_,_,X).
