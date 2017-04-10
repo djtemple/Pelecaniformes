@@ -127,15 +127,24 @@ synonym(A,B) :- hasSciName(A,X), hasSciName(B,X), A \= B, !.
 habitat(X,Y) :- atom(X) ->  isaStrict(S,X), habitat1(S,Y).
 habitat(X,Y) :- var(X) -> habitat1(X,Y).
 
-habitat1(pelecanus_erythrorynchos, marsh).
-habitat1(pelecanus_occidentalus, ocean).
+habitat1(pelecanus_erythrorhynchos, lakePond).
+habitat1(pelecanus_occidentalis, ocean).
 habitat1(botaurus_lentiginosus, marsh).
+habitat1(ixobrychus_exilis, marsh).
 habitat1(ardea_herodias, marsh).
-habitat1(ardea_herodias, lakePond).
-habitat1(ardea_herodias, ocean).
-habitat1(ardea_alba, ocean).
-habitat1(egretta_thula, ocean).
+habitat1(ardea_alba, marsh).
 habitat1(egretta_thula, marsh).
+habitat1(egretta_caerulea, marsh).
+habitat1(egretta_tricolor, marsh).
+habitat1(egretta_rufescens, marsh).
+habitat1(bubulcus_ibis, marsh).
+habitat1(butorides_virescens, marsh).
+habitat1(nycticorax_nycticorax, marsh).
+habitat1(nyctanassa_violacea,  marsh).
+habitat1(eudocimus_albus, marsh).
+habitat1(plegadis_falcinellus, marsh).
+habitat1(plegadis_chihi, marsh).
+habitat1(platalea_ajaja, marsh).
 
 nesting(X,Y) :- atom(X) -> isaStrict(S,X), nesting1(S,Y).
 nesting(X,Y) :- nesting1(X,Y).
