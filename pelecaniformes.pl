@@ -124,61 +124,69 @@ synonym(A,B) :- hasCommonName(A,B).
 synonym(A,B) :- hasSciName(A,B).
 synonym(A,B) :- hasSciName(A,X), hasSciName(B,X), A \= B, !.
 
-habitat(pelecanus_erythrorynchos, marsh).
-habitat(pelecanus_occidentalus, ocean).
-habitat(botaurus_lentiginosus, marsh).
-habitat(ardea_herodias, marsh).
-habitat(ardea_herodias, lakePond).
-habitat(ardea_herodias, ocean).
-habitat(ardea_alba, ocean).
-habitat(egretta_thula, ocean).
-habitat(egretta_thula, marsh).
+habitat(X,Y) :- atom(X) ->  isaStrict(S,X), habitat1(S,Y).
+habitat(X,Y) :- var(X) -> habitat1(X,Y).
 
-nesting(pelecanus_erythrorhynchos, ground).
-nesting(pelecanus_occidentalis, tree).
-nesting(botaurus_lentiginosus, ground).
-nesting(ixobrychus_exilis, ground).
-nesting(ardea_herodias, tree).
-nesting(ardea_alba, tree).
-nesting(egretta_thula, tree).
-nesting(egretta_caerulea, tree).
-nesting(egretta_tricolor, tree).
-nesting(egretta_rufescens, tree).
-nesting(bubulcus_ibis, tree).
-nesting(butorides_virescens, tree).
-nesting(nycticorax_nycticorax, tree).
-nesting(nyctanassa_violacea, tree).
-nesting(eudocimus_albus, tree).
-nesting(plegadis_falcinellus, ground).
-nesting(plegadis_chihi, ground).
-nesting(platalea_ajaja, tree).
+habitat1(pelecanus_erythrorynchos, marsh).
+habitat1(pelecanus_occidentalus, ocean).
+habitat1(botaurus_lentiginosus, marsh).
+habitat1(ardea_herodias, marsh).
+habitat1(ardea_herodias, lakePond).
+habitat1(ardea_herodias, ocean).
+habitat1(ardea_alba, ocean).
+habitat1(egretta_thula, ocean).
+habitat1(egretta_thula, marsh).
 
-food(pelecanus_erythrorhynchos, fish).
-food(pelecanus_occidentalis, fish).
-food(botaurus_lentiginosus, fish).
-food(ixobrychus_exilis, fish).
-food(ardea_herodias, fish).
-food(ardea_alba, fish).
-food(egretta_thula, fish).
-food(egretta_caerulea, fish).
-food(egretta_tricolor, fish).
-food(egretta_rufescens, fish).
-food(bubulcus_ibis, insects).
-food(butorides_virescens, fish).
-food(nycticorax_nycticorax, fish).
-food(nyctanassa_violacea,  insects).
-food(eudocimus_albus, insects).
-food(plegadis_falcinellus, insects).
-food(plegadis_chihi, insects).
-food(platalea_ajaja, fish).
+nesting(X,Y) :- atom(X) -> isaStrict(S,X), nesting1(S,Y).
+nesting(X,Y) :- nesting1(X,Y).
+
+nesting1(pelecanus_erythrorhynchos, ground).
+nesting1(pelecanus_occidentalis, tree).
+nesting1(botaurus_lentiginosus, ground).
+nesting1(ixobrychus_exilis, ground).
+nesting1(ardea_herodias, tree).
+nesting1(ardea_alba, tree).
+nesting1(egretta_thula, tree).
+nesting1(egretta_caerulea, tree).
+nesting1(egretta_tricolor, tree).
+nesting1(egretta_rufescens, tree).
+nesting1(bubulcus_ibis, tree).
+nesting1(butorides_virescens, tree).
+nesting1(nycticorax_nycticorax, tree).
+nesting1(nyctanassa_violacea, tree).
+nesting1(eudocimus_albus, tree).
+nesting1(plegadis_falcinellus, ground).
+nesting1(plegadis_chihi, ground).
+nesting1(platalea_ajaja, tree).
+
+food(X,Y) :- var(X) -> hasCompoundName(_,_,X), food1(X,Y).
+food(X,Y) :- atom(X) -> isaStrict(S,X), hasCompoundName(_,_,S), food1(S,Y).
+
+food1(pelecanus_erythrorhynchos, fish).
+food1(pelecanus_occidentalis, fish).
+food1(botaurus_lentiginosus, fish).
+food1(ixobrychus_exilis, fish).
+food1(ardea_herodias, fish).
+food1(ardea_alba, fish).
+food1(egretta_thula, fish).
+food1(egretta_caerulea, fish).
+food1(egretta_tricolor, fish).
+food1(egretta_rufescens, fish).
+food1(bubulcus_ibis, insects).
+food1(butorides_virescens, fish).
+food1(nycticorax_nycticorax, fish).
+food1(nyctanassa_violacea,  insects).
+food1(eudocimus_albus, insects).
+food1(plegadis_falcinellus, insects).
+food1(plegadis_chihi, insects).
+food1(platalea_ajaja, fish).
 
 conservation(egretta_rufescens, nt).
-conservation(X, lc) :- hasCompoundName(_,_,X).
-conservation(X,Y) :- nonvar(X) -> isaStrict(S,X), conservation(S,Y).
+conservation(X, lc) :- var(X), hasCompoundName(_,_,X), X \= egretta_rufescens.
 
 %returns the behaviour associated with a given bird
 behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaves(X,Y).
-behavior(X,Y):- atom(X) -> isaStrict(S,X) behaves(S,Y).
+behavior(X,Y):- atom(X) -> isaStrict(S,X), behaves(S,Y).
 
 %A list of all the bird behaviours
 
