@@ -99,7 +99,7 @@ hasCommonName(butorides_virescens, greenHeron).
 hasCommonName(nycticorax, nightHeron).
 hasCommonName(nycticorax_nycticorax, blackCrownedNightHeron).
 hasCommonName(nyctanassa, nightHeron).
-hasCommonName(nyctanassa_violacea, yelloCrownedNightHeron).
+hasCommonName(nyctanassa_violacea, yellowCrownedNightHeron).
 hasCommonName(eudocimus,ibis).
 hasCommonName(eudocimus_albus, whiteIbis).
 hasCommonName(plegadis, ibis).
