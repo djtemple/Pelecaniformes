@@ -181,7 +181,7 @@ conservation(X,Y) :- nonvar(X) -> isaStrict(S,X), conservation(S,Y).
 
 %returns the behaviour associated with a given bird
 behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaves(X,Y).
-behavior(X,Y):- atom(X) -> behaves(X,Y).
+behavior(X,Y):- atom(X) -> isaStrict(S,X) behaves(S,Y).
 
 %A list of all the bird behaviours
 
@@ -203,28 +203,6 @@ behaves(eudocimus_albus, probing).
 behaves(plegadis_falcinellus, probing).
 behaves(plegadis_chihi, probing).
 behaves(platalea_ajaja, probing).
-behaves(pelecanus, surfaceDive).
-behaves(pelecanus, aerialDive).
-behaves(pelecanidae, surfaceDive).
-behaves(ardeidae, stalking).
-behaves(ardeidae, groundForager).
-behaves(botaurus, stalking).
-behaves(ixobrychus, stalking).
-behaves(ardea, stalking).
-behaves(egretta, stalking).
-behaves(bubulcus, groundForager).
-behaves(butorides, stalking).
-behaves(nycticorax, stalking).
-behaves(nyctanassa, stalking).
-behaves(threskiornithdae, probing).
-behaves(eudocimus, probing).
-behaves(plegadis, probing).
-behaves(platalea, probing).
-behaves(pelecaniformes, surfaceDive).
-behaves(pelecaniformes, aerialDive).
-behaves(pelecaniformes, probing).
-behaves(pelecaniformes, stalking).
-behaves(pelecaniformes, groundForager).
 
 
 %returns the range of a given bird
