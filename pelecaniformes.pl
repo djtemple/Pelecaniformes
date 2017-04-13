@@ -1,9 +1,14 @@
+% declaration of pelecaniformes as an order
 order(pelecaniformes).
 
+
+% list of all families within pelecaniformes
 family(pelecanidae).
 family(ardeidae).
 family(threskiornithidae).
 
+
+% list of genera in pelecaniformes
 genus(pelecanus).
 genus(botaurus).
 genus(ixobrychus).
@@ -17,6 +22,8 @@ genus(eudocimus).
 genus(plegadis).
 genus(platalea).
 
+
+% list of species within pelecaniformes
 species(erythrorhynchos).
 species(occidentalis).
 species(lentiginosus).
@@ -36,6 +43,8 @@ species(falcinellus).
 species(chihi).
 species(ajaja).
 
+
+% direct parent-child taxonomic relationships using raw species names
 hasParent(pelecanidae, pelecaniformes).
 hasParent(ardeidae, pelecaniformes).
 hasParent(threskiornithidae, pelecaniformes).
@@ -70,12 +79,18 @@ hasParent(falcinellus, plegadis).
 hasParent(chihi, plegadis).
 hasParent(ajaja, platalea).
 
+
+% list of direct parent-child taxonomic relationships using compound species names
 hasParent2(nycticorax, ardeidae).
 hasParent2(X,Y) :- hasParent(X,Y) *-> \+ species(X).
 hasParent2(X,Y) :- hasCompoundName(Y,_,X).
 
+
+% combines genus and raw species name into combined species name
 hasCompoundName(G,S,C) :- genus(G), species(S), hasParent(S,G), atom_concat(G, '_', X), atom_concat(X,S,C).
 
+
+% takes a scientific name and returns common name associated with that orders/families/genera/species
 hasCommonName(pelecanus, pelican).
 hasCommonName(pelecanus_erythrorhynchos, americanWhitePelican).
 hasCommonName(pelecanus_occidentalis, brownPelican).
@@ -108,25 +123,54 @@ hasCommonName(plegadis_chihi, whiteFacedIbis).
 hasCommonName(platalea, spoonbill).
 hasCommonName(platalea_ajaja, roseateSpoonbill).
 
+
+% takes a compound species name and returns common name associated with that orders/families/genera/species
 hasCommonName(G,S,C) :- hasCompoundName(G,S,Compound), hasCommonName(Compound,C).
 
+
+% takes a common name and returns scientific name associated with that orders/families/genera/species
 hasSciName(C,N) :- hasCommonName(N,C).
 
-isaStrict(A,A).
+
+% checks if one order/family/genus/species is a descendent/example of another
+isaStrict(A,A) :- hasCompoundName(_,_,A); family(A); genus(A); order(A).
 isaStrict(A,B) :- hasParent2(A,C), isaStrict(C,B).
 
+
+% checks if one order/family/genus/species is a descendent/example of another
+% accepts common names but returns only scientific names
 isa(A,B) :-	(nonvar(A), nonvar(B)) -> hasCommonName(X,A), hasCommonName(Y,B),isaStrict(X,Y).
 isa(A,B) :- nonvar(A) -> hasCommonName(X,A), isaStrict(X,B).
 isa(A,B) :- nonvar(B) -> hasCommonName(Y,B), isaStrict(A,Y).
 isa(A,B) :- isaStrict(A,B).
 
+
+% takes a order/family/genus/species and returns the number of difference species associated with it
+countSpecies(A, N) :- findall(_, hasCommonName(A,_), Z), N is 1.
+countSpecies(A, N) :- findall(_, hasParent(_,A), Z), length(Z, N).
+countSpecies(A, N) :- findall(_, hasGrandchild(A,_), Z), length(Z, N).
+countSpecies(A, N) :- findall(_, hasGreatGrandchild(A,_), Z), sort(Z, C), length(C, N).
+
+
+% checks if one classification is the second descendent of another
+hasGrandchild(X, Y) :- hasParent(A, X), hasParent(Y, A).
+
+% checks if one classification is the third descendent of another
+hasGreatGrandchild(X, Y) :- hasParent(A, X), hasGrandchild(A, Y).
+
+
+% checks if two terms refer to the same order/family/genus/species
 synonym(A,B) :- hasCommonName(A,B).
 synonym(A,B) :- hasSciName(A,B).
 synonym(A,B) :- hasSciName(A,X), hasSciName(B,X), A \= B, !.
 
+
+% checks if X is an atom or a variable
+% if a variable, only compound species names are returned from habitat1/2
 habitat(X,Y) :- atom(X) ->  isaStrict(S,X), habitat1(S,Y).
 habitat(X,Y) :- var(X) -> habitat1(X,Y).
 
+% list of habitats associated with specific species
 habitat1(pelecanus_erythrorhynchos, lakePond).
 habitat1(pelecanus_occidentalis, ocean).
 habitat1(botaurus_lentiginosus, marsh).
@@ -146,9 +190,14 @@ habitat1(plegadis_falcinellus, marsh).
 habitat1(plegadis_chihi, marsh).
 habitat1(platalea_ajaja, marsh).
 
+
+
+% checks if X is an atom or a variable
+% if a variable, only compound species names are returned from nesting1/2
 nesting(X,Y) :- atom(X) -> isaStrict(S,X), nesting1(S,Y).
 nesting(X,Y) :- nesting1(X,Y).
 
+% list of nesting styles associate with specific species
 nesting1(pelecanus_erythrorhynchos, ground).
 nesting1(pelecanus_occidentalis, tree).
 nesting1(botaurus_lentiginosus, ground).
@@ -168,9 +217,13 @@ nesting1(plegadis_falcinellus, ground).
 nesting1(plegadis_chihi, ground).
 nesting1(platalea_ajaja, tree).
 
+
+% checks if X is an atom or a variable
+% if a variable, only compound species names are returned from food1/2
 food(X,Y) :- var(X) -> hasCompoundName(_,_,X), food1(X,Y).
 food(X,Y) :- atom(X) -> isaStrict(S,X), hasCompoundName(_,_,S), food1(S,Y).
 
+% list of food types associated with specific species
 food1(pelecanus_erythrorhynchos, fish).
 food1(pelecanus_occidentalis, fish).
 food1(botaurus_lentiginosus, fish).
@@ -190,15 +243,29 @@ food1(plegadis_falcinellus, insects).
 food1(plegadis_chihi, insects).
 food1(platalea_ajaja, fish).
 
-conservation(egretta_rufescens, nt).
-conservation(X, lc) :- var(X), hasCompoundName(_,_,X), X \= egretta_rufescens.
 
-%returns the behaviour associated with a given bird
+
+
+
+% checks if X is an atom or a variable
+% if a variable, only compound species names are returned from conservation1/2
+conservation(X, Y) :- atom(X) -> isaStrict(S,X), conservation1(S,Y).
+conservation(X,Y) :- var(X) -> conservation1(X,Y).
+
+% returns conservation status associated with specific species
+conservation1(egretta_rufescens, nt).
+conservation1(X, lc) :- hasCompoundName(_,_,X), X \= egretta_rufescens.
+
+
+
+
+
+% checks if X is an atom or a variable
+% if a variable, only compound species names are returned from behaves/2
 behavior(X,Y):- var(X) -> hasCompoundName(_,_,X), behaves(X,Y).
 behavior(X,Y):- atom(X) -> isaStrict(S,X), behaves(S,Y).
 
-%A list of all the bird behaviours
-
+% returns behaviours associated with specific species
 behaves(pelecanus_erythrorhynchos, surfaceDive).
 behaves(pelecanus_occidentalis, aerialDive).
 behaves(botaurus_lentiginosus, stalking).
@@ -219,11 +286,15 @@ behaves(plegadis_chihi, probing).
 behaves(platalea_ajaja, probing).
 
 
-%returns the range of a given bird
+% checks if X is an atom or a variable
+% if a variable, only compound species names are returned from ranges/2
 rangesTo(X,Y):- var(X) -> hasCompoundName(_,_,X), ranges(X,Y).
 rangesTo(X,Y) :- atom(X) -> isaStrict(S,X), ranges(S,Y).
 
-% a list of all the ranges of the birds
+
+
+
+% returns ranges associated with specific species
 ranges(pelecanus_erythrorhynchos, alberta).
 ranges(botaurus_lentiginosus, alberta).
 ranges(bubulcus_ibis, canada).
